@@ -2,10 +2,6 @@ module Markdown
   module Controller::Admin
     extend ActiveSupport::Concern
 
-    included do
-      layout 'admin'
-    end
-
     def current_github_user
       return @current_github_user if defined? @current_github_user
       @current_github_user = current_user.oauth_users.find_by(type: 'Auth::GithubUser')
