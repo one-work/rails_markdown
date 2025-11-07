@@ -1,7 +1,7 @@
 <%= render layout: 'layouts/application_head' do %>
   <%= render 'nav_bar' %>
-  <main class="columns container">
-    <div class="column">
+  <turbo-frame id="main" refresh="morph" data-turbo-action="advance">
+    <main class="container">
       <div class="mb-3">
         <%= render 'breadcrumb' %>
       </div>
@@ -13,7 +13,7 @@
           <%= yield %>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </turbo-frame>
   <%= render 'footer' %>
 <% end %>

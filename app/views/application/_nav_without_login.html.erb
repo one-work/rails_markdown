@@ -1,2 +1,2 @@
-<%= link_to t('markdown.posts.index.title'), { controller: '/markdown/posts' }, class: active_helper(controllers: ['posts'], active: 'navbar-item is-active', item: 'navbar-item') %>
-<%= link_to t('markdown.admin.gits.index.title'), { controller: 'markdown/admin/gits' }, class: active_helper(controllers: ['gits'], active: 'navbar-item is-active', item: 'navbar-item') %>
+<%= link_to t('markdown.posts.index.title'), { controller: '/markdown/posts' }, data: { turbo_frame: 'main' }, class: active_helper(controllers: ['posts'], active: 'navbar-item is-active', item: 'navbar-item') %>
+<%= link_to t('markdown.admin.gits.index.title'), { controller: 'markdown/admin/gits' }, data: { turbo_frame: 'main' }, class: active_helper(controllers: ['gits'], active: 'navbar-item is-active', item: 'navbar-item') %>
