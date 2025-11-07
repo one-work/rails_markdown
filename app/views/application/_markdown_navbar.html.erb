@@ -1,21 +1,21 @@
 <% Markdown::Catalog.includes(:git).default_where(default_params).nav.each do |catalog| %>
   <% if catalog.root? %>
-    <%= link_to catalog.name.presence || t('markdown.posts.index.title'), { controller: '/markdown/posts' }, class: active_helper(controller: '/markdown/posts', action: 'index', active: 'navbar-item is-active', item: 'navbar-item') %>
+    <%= link_to catalog.name.presence || t('markdown.posts.index.title'), { controller: '/markdown/posts' }, data: { turbo_frame: 'main' }, class: active_helper(controller: '/markdown/posts', action: 'index', active: 'navbar-item is-active', item: 'navbar-item') %>
   <% elsif catalog.home %>
-    <%= link_to catalog.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path }, class: active_helper(controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path, active: 'navbar-item is-active', item: 'navbar-item') %>
+    <%= link_to catalog.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path }, data: { turbo_frame: 'main' }, class: active_helper(controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path, active: 'navbar-item is-active', item: 'navbar-item') %>
   <% elsif catalog.children.present? %>
     <div class="navbar-item has-dropdown is-hoverable display-none-touch">
       <div class="navbar-link"><%= catalog.name %></div>
       <div class="navbar-dropdown is-right">
       <% catalog.children.each do |child| %>
-        <%= link_to child.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: child.path }, class: active_helper(base_name: catalog.git.base_name, catalog_path: child.path, active: 'navbar-item is-active', item: 'navbar-item') %>
+        <%= link_to child.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: child.path }, data: { turbo_frame: 'main' }, class: active_helper(base_name: catalog.git.base_name, catalog_path: child.path, active: 'navbar-item is-active', item: 'navbar-item') %>
       <% end %>
       </div>
     </div>
   <% else %>
-    <%= link_to catalog.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path }, class: active_helper(base_name: catalog.git.base_name, catalog_path: catalog.path, active: 'navbar-item is-active', item: 'navbar-item') %>
+    <%= link_to catalog.name, { controller: '/markdown/posts', action: 'show', base_name: catalog.git.base_name, slug: catalog.path }, data: { turbo_frame: 'main' }, class: active_helper(base_name: catalog.git.base_name, catalog_path: catalog.path, active: 'navbar-item is-active', item: 'navbar-item') %>
   <% end %>
 <% end %>
 <% Markdown::Post.includes(:git).default_where(default_params).nav.each do |post| %>
-  <%= link_to post.title, { controller: '/markdown/posts', action: 'show', base_name: post.git.base_name, slug: post.slug }, class: active_helper(base_name: post.git.base_name, slug: post.slug, active: 'navbar-item is-active', item: 'navbar-item') %>
+  <%= link_to post.title, { controller: '/markdown/posts', action: 'show', base_name: post.git.base_name, slug: post.slug }, data: { turbo_frame: 'main' }, class: active_helper(base_name: post.git.base_name, slug: post.slug, active: 'navbar-item is-active', item: 'navbar-item') %>
 <% end %>
