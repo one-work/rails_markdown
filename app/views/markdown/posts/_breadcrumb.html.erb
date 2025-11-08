@@ -1,9 +1,7 @@
-<div class="breadcrumb has-succeeds-separator">
-  <ul>
-  <% if @post %>
-    <%= render 'post_breadcrumb' %>
-  <% else %>
-    <%= render 'catalog_breadcrumb' %>
-  <% end %>
-  </ul>
-</div>
+<ul class="breadcrumb has-succeeds-separator">
+<% if @post %>
+  <%= render 'post_breadcrumb' %>
+<% else %>
+  <%= render 'catalog_breadcrumb' %>
+<% end %>
+</ul>
