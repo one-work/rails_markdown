@@ -4,9 +4,14 @@ module Markdown
 
     included do
       attribute :client_id, :string
+      attribute :client_secret, :string
+      attribute :state, :string
+
+      has_many :github_users, class_name: 'Auth::GithubUser', primary_key: :client_id, foreign_key: :appid
     end
 
-    def oauth2_url(scope: 'user,repo,gist', state: SecureRandom.alphanumeric(32), **url_options)
+    def oauth2_url(scope: 'user,repo,gist', **url_options)
+      self.update state: SecureRandom.alphanumeric(32)
       url_options.with_defaults!(
         controller: '/oauth',
         action: 'github',
@@ -21,6 +26,25 @@ module Markdown
       }
       logger.debug "\e[35m  App Oauth2: #{h}  \e[0m"
       "https://github.com/login/oauth/authorize?#{h.to_query}"
+    end
+
+    def generate_github_user(code)
+      result = HTTPX.post(
+        'https://github.com/login/oauth/access_token',
+        json: {
+          client_id: client_id,
+          client_secret: client_secret,
+          code: code
+        }
+      )
+      logger.debug "\e[35m  Github App Generate User: #{result}  \e[0m"
+
+      info = HTTPX.plugin(:auth).bearer_auth(result['access_token']).get('https://api.github.com/user')
+      logger.debug "\e[35m  Github App Generate User: #{info}  \e[0m"
+
+      github_user = github_users.find_or_initialize_by(uid: result['openid'])
+      github_user.access_token = result['access_token']
+      github_user
     end
 
   end
