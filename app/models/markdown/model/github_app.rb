@@ -36,7 +36,7 @@ module Markdown
           client_secret: client_secret,
           code: code
         }
-      ).json
+      )
       logger.debug "\e[35m  Github App Generate User: #{result}  \e[0m"
 
       info = HTTPX.plugin(:auth).bearer_auth(result['access_token']).plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).get('https://api.github.com/user')
