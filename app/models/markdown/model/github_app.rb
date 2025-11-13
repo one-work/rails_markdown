@@ -8,8 +8,8 @@ module Markdown
 
     def oauth2_url(scope: 'user,repo,gist', state: SecureRandom.alphanumeric(32), **url_options)
       url_options.with_defaults!(
-        controller: '/home',
-        action: 'login',
+        controller: '/oauth',
+        action: 'github',
         appid: client_id
       )
       h = {
