@@ -29,7 +29,7 @@ module Markdown
     end
 
     def generate_github_user(code)
-      result = HTTPX.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).post(
+      result = HTTPX.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).with(headers: { 'Accept' => 'application/json' }).post(
         'https://github.com/login/oauth/access_token',
         json: {
           client_id: client_id,
@@ -37,7 +37,8 @@ module Markdown
           code: code
         }
       )
-      logger.debug "\e[35m  Github App Generate User: #{result}  \e[0m"
+      r = result.json
+      logger.debug "\e[35m  Github App Generate User: #{result}, #{r}  \e[0m"
 
       info = HTTPX.plugin(:auth).bearer_auth(result['access_token']).plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).get('https://api.github.com/user')
       logger.debug "\e[35m  Github App info: #{info.json}  \e[0m"
