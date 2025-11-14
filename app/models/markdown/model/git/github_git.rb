@@ -4,7 +4,7 @@ module Markdown
     ASSETS = ['.jpg', '.jpeg', '.png', '.webp', '.svg', '.mp4']
 
     included do
-      belongs_to :github_user, class_name: 'Auth::GithubUser'
+      belongs_to :github_user, class_name: 'Auth::GithubUser', optional: true
     end
 
     def sync_files(path = nil, mds: [], files: [], tries: 3)
@@ -89,12 +89,16 @@ module Markdown
     end
 
     def url
-      Rails.application.routes.url_for(
-        controller: 'markdown/gits',
-        action: 'show',
-        id: self.id,
-        host: organ.host
-      ) if organ.host.present?
+      if organ&.host
+        Rails.application.routes.url_for(
+          controller: 'markdown/gits',
+          action: 'show',
+          id: self.id,
+          host: organ.host
+        )
+      else
+        ''
+      end
     end
 
     def sync_commit!

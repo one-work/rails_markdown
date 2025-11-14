@@ -5,7 +5,9 @@
 </td>
 <td><%= model.organ&.name %></td>
 <td>
-  <p><%= model.identity %></p>
+<% if model.github_user %>
+  <p><%= model.github_user.name %></p>
+<% end %>
 </td>
 <td>
   <p><%= model.last_commit_message %></p>
