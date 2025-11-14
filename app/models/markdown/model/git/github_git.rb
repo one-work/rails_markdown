@@ -4,9 +4,7 @@ module Markdown
     ASSETS = ['.jpg', '.jpeg', '.png', '.webp', '.svg', '.mp4']
 
     included do
-      attribute :identity, :string
-
-      has_one :github_user, class_name: 'Auth::GithubUser', primary_key: :identity, foreign_key: :uid
+      belongs_to :github_user, class_name: 'Auth::GithubUser'
     end
 
     def sync_files(path = nil, mds: [], files: [], tries: 3)
