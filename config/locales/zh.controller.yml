@@ -8,6 +8,8 @@ zh:
       gits:
         index:
           title: Git 路径
+        edit_github_user:
+          title: Github Users
       posts:
         index:
           title: 文章列表
