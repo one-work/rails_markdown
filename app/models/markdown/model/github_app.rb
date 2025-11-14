@@ -14,13 +14,11 @@ module Markdown
       self.update state: SecureRandom.alphanumeric(32)
       url_options.with_defaults!(
         controller: '/oauth',
-        action: 'github',
-        appid: client_id
+        action: 'github'
       )
       h = {
         client_id: client_id,
         redirect_uri: Rails.application.routes.url_for(**url_options),
-        response_type: 'code',
         scope: scope,
         state: state
       }
@@ -46,7 +44,8 @@ module Markdown
 
       github_user = github_users.find_or_initialize_by(uid: user_info['id'])
       github_user.access_token = r['access_token']
-      github_user
+      github_user.name = user_info['name']
+      github_user.save!
     end
 
   end
