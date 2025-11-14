@@ -40,9 +40,8 @@ module Markdown
       r = result.json
       logger.debug "\e[35m  Github App Generate User: #{r['access_token']}  \e[0m"
 
-      session = HTTPX.plugin(:auth).bearer_auth(r['access_token'])
-      info = session.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).get('https://api.github.com/user')
-      user_info = info.json
+      client = Octokit::Client.new access_token: r['access_token']
+      user_info = client.user
       logger.debug "\e[35m  Github App info: #{user_info}  \e[0m"
 
       github_user = github_users.find_or_initialize_by(uid: user_info['id'])
