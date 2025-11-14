@@ -26,7 +26,7 @@ module Markdown
       "https://github.com/login/oauth/authorize?#{h.to_query}"
     end
 
-    def generate_github_user(code)
+    def generate_github_user(code, user_id:)
       result = HTTPX.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).with(headers: { 'Accept' => 'application/json' }).post(
         'https://github.com/login/oauth/access_token',
         json: {
@@ -45,6 +45,7 @@ module Markdown
       github_user = github_users.find_or_initialize_by(uid: user_info['id'])
       github_user.access_token = r['access_token']
       github_user.name = user_info['name']
+      github_user.user_id = user_id
       github_user.save!
     end
 
