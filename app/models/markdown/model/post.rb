@@ -138,6 +138,7 @@ module Markdown
         link.attr['target'] = '_blank'
       elsif link.attr['href'].start_with?('/')
         link.attr['target'] = '_blank' if target_blank?
+      elsif link.attr['href'].start_with?('#')
       else
         link.attr['href'].prepend based_path('posts')
         link.attr['href'].delete_suffix!('.md')
