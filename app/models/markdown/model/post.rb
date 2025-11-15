@@ -128,7 +128,7 @@ module Markdown
 
     def convert_img(link)
       unless link.attr['src'].start_with?('http', '//')
-        link.attr['src'].prepend based_path('assets')
+        link.attr['src'].prepend based_assets_path
       end
     end
 
@@ -139,7 +139,7 @@ module Markdown
         link.attr['target'] = '_blank' if target_blank?
       elsif link.attr['href'].start_with?('#')
       else
-        link.attr['href'].prepend based_path('posts')
+        link.attr['href'].prepend based_posts_path
         link.attr['href'].delete_suffix!('.md')
       end
     end
@@ -174,11 +174,19 @@ module Markdown
       self
     end
 
-    def based_path(type = 'posts')
+    def based_posts_path
       if git.base_name.present?
-        "/markdown/#{git.base_name}/#{type}/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
+        "/#{git.base_name}/posts/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
       else
-        "/markdown/#{type}/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
+        "/posts/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
+      end
+    end
+
+    def based_assets_path
+      if git.base_name.present?
+        "/markdown/#{git.base_name}/assets/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
+      else
+        "/markdown/assets/#{catalog_path}#{catalog_path.present? ? '/' : ''}"
       end
     end
 
