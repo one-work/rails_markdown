@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  namespace :markdown, defaults: { business: 'markdown' } do
+  scope module: :markdown, defaults: { business: 'markdown' } do
     scope '(:base_name)' do
       resources :assets, only: [:show], constraints: { id: /.+/ }
       resources :posts, only: [:index]
@@ -17,7 +17,9 @@ Rails.application.routes.draw do
         post '' => :create
       end
     end
+  end
 
+  namespace :markdown, defaults: { business: 'markdown' } do
     namespace :admin, defaults: { namespace: 'admin' } do
       root 'home#index'
       resources :gits do
@@ -72,5 +74,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
 end
