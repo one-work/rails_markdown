@@ -27,7 +27,7 @@ module Markdown
     end
 
     def generate_github_user(code, user_id:)
-      result = HTTPX.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy]).with(headers: { 'Accept' => 'application/json' }).post(
+      result = HTTPX.plugin(:'proxy/ssh').with_proxy(**Rails.application.credentials[:proxy].deep_dup).with(headers: { 'Accept' => 'application/json' }).post(
         'https://github.com/login/oauth/access_token',
         json: {
           client_id: client_id,
