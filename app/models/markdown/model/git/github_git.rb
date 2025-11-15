@@ -30,6 +30,7 @@ module Markdown
     rescue Faraday::ConnectionFailed => e
       retry unless (tries -= 1).zero?
     ensure
+      logger.debug "-----------#{mds}---"
       [mds, files]
     end
 
