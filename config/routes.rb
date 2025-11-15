@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     namespace :admin, defaults: { namespace: 'admin' } do
       root 'home#index'
       resources :gits do
+        member do
+          post :edit_github_user
+        end
         resources :catalogs do
           collection do
             get :all
