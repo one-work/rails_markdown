@@ -198,7 +198,7 @@ module Markdown
     end
 
     def home?
-      catalog.home == self
+      catalog.home_path == path
     end
 
     def document_h1

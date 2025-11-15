@@ -14,12 +14,12 @@ module Markdown
       belongs_to :organ, class_name: 'Org::Organ', optional: true
 
       belongs_to :git
-      belongs_to :parent, ->(o) { where(git_id: o.git_id) }, class_name: self.name, foreign_key: :parent_path, primary_key: :path, optional: true
-      belongs_to :home, ->(o) { where(git_id: o.git_id) }, class_name: 'Post', foreign_key: :home_path, primary_key: :path, optional: true
+      belongs_to :parent, class_name: self.name, foreign_key: [:git_id, :parent_path], primary_key: [:git_id, :path], optional: true
+      belongs_to :home, class_name: 'Post', foreign_key: [:git_id, :home_path], primary_key: [:git_id, :path], optional: true
 
-      has_many :posts, ->(o) { where(git_id: o.git_id) }, primary_key: :path, foreign_key: :catalog_path
-      has_many :children, ->(o) { where(git_id: o.git_id, depth: o.depth + 1) }, class_name: self.name, primary_key: :path, foreign_key: :parent_path
-      has_many :siblings, ->(o) { where(git_id: o.git_id, depth: o.depth) }, class_name: self.name, primary_key: :parent_path, foreign_key: :parent_path
+      has_many :posts, -> (o) { where.not(path: o.home_path) }, primary_key: [:git_id, :path], foreign_key: [:git_id, :catalog_path]
+      has_many :children, ->(o) { where(depth: o.depth + 1) }, class_name: self.name, primary_key: [:git_id, :path], foreign_key: [:git_id, :parent_path]
+      has_many :siblings, ->(o) { where(depth: o.depth) }, class_name: self.name, primary_key: [:git_id, :parent_path], foreign_key: [:git_id, :parent_path]
 
       scope :ordered, -> { order(position: :asc) }
       scope :nav, -> { where(nav: true) }
