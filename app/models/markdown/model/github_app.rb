@@ -7,6 +7,8 @@ module Markdown
       attribute :client_secret, :string
       attribute :state, :string
 
+      belongs_to :organ, class_name: 'Org::Organ', optional: true
+
       has_many :github_users, class_name: 'Auth::GithubUser', primary_key: :client_id, foreign_key: :appid
     end
 
