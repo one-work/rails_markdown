@@ -1,8 +1,8 @@
 <div class="menu background-light is-fullheight is-radius">
-<% if @post %>
-  <%= render 'post_nav' %>
-<% elsif @post.home? %>
+<% if @post&.home? %>
   <%= render partial: 'catalog_nav', locals: { catalog: @post.catalog } %>
+<% elsif @post %>
+  <%= render 'post_nav' %>
 <% else %>
   <%= render partial: 'catalog_nav', locals: { catalog: @catalog } %>
 <% end %>
