@@ -52,6 +52,11 @@ module Markdown
       )
     end
 
+    def comark
+      return @comark if defined? @comark
+      @comark = Commonmarker.parse(markdown)
+    end
+
     def converter
       return @converter if defined? @converter
       @converter = Kramdown::Converter::Html.send :new, document.root, document.options
