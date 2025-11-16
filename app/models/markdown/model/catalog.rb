@@ -7,9 +7,10 @@ module Markdown
       attribute :path, :string
       attribute :parent_path, :string
       attribute :position, :integer
-      attribute :nav, :boolean, default: false, comment: '是否导航菜单'
       attribute :depth, :integer
       attribute :home_path, :string
+      attribute :nav, :boolean, default: false, comment: '是否导航菜单'
+      attribute :published, :boolean, default: true
 
       belongs_to :organ, class_name: 'Org::Organ', optional: true
 
@@ -19,10 +20,10 @@ module Markdown
 
       has_many :posts, -> (o) { where.not(path: o.home_path) }, primary_key: [:git_id, :path], foreign_key: [:git_id, :catalog_path]
       has_many :children, ->(o) { where(depth: o.depth + 1) }, class_name: self.name, primary_key: [:git_id, :path], foreign_key: [:git_id, :parent_path]
-      has_many :siblings, ->(o) { where(depth: o.depth) }, class_name: self.name, primary_key: [:git_id, :parent_path], foreign_key: [:git_id, :parent_path]
+      has_many :siblings, ->(o) { where(depth: o.depth, published: true) }, class_name: self.name, primary_key: [:git_id, :parent_path], foreign_key: [:git_id, :parent_path]
 
       scope :ordered, -> { order(position: :asc) }
-      scope :nav, -> { where(nav: true) }
+      scope :nav, -> { where(nav: true, published: true) }
       scope :roots, -> { where(depth: 1) }
 
       normalizes :path, with: -> path { path.to_s }
