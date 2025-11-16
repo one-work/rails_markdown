@@ -32,6 +32,7 @@ module Markdown
       scope :published, -> { where(published: true) }
       scope :nav, -> { where(nav: true) }
       scope :shared, -> { where(shared: true) }
+      scope :ordered, -> { order(position: :asc) }
 
       positioned on: [:git_id, :catalog_path]
 

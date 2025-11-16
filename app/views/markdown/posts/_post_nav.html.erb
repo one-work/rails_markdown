@@ -3,7 +3,7 @@
 <% @post.catalog.children.each do |catalog| %>
   <%= link_to catalog.name, { action: 'show', slug: catalog.path }, class: active_helper(catalog_path: catalog.path, active: 'is-active') %>
 <% end %>
-<% @post.catalog.posts.published.each do |post| %>
+<% @post.catalog.posts.published.ordered.each do |post| %>
   <%= link_to post.title, { action: 'show', slug: post.slug }, data: { id: post.id }, class: post.id == @post.id ? 'is-active' : '' %>
 <% end %>
 </div>

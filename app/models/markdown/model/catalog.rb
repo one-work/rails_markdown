@@ -18,7 +18,7 @@ module Markdown
       belongs_to :parent, class_name: self.name, foreign_key: [:git_id, :parent_path], primary_key: [:git_id, :path], optional: true
       belongs_to :home, class_name: 'Post', foreign_key: [:git_id, :home_path], primary_key: [:git_id, :path], optional: true
 
-      has_many :posts, -> (o) { where.not(path: o.home_path, published: true) }, primary_key: [:git_id, :path], foreign_key: [:git_id, :catalog_path]
+      has_many :posts, -> (o) { where.not(path: o.home_path) }, primary_key: [:git_id, :path], foreign_key: [:git_id, :catalog_path]
       has_many :children, ->(o) { where(depth: o.depth + 1, published: true) }, class_name: self.name, primary_key: [:git_id, :path], foreign_key: [:git_id, :parent_path]
       has_many :siblings, ->(o) { where(depth: o.depth, published: true) }, class_name: self.name, primary_key: [:git_id, :parent_path], foreign_key: [:git_id, :parent_path]
 
