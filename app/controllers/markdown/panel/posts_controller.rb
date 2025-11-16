@@ -7,7 +7,7 @@ module Markdown
       q_params = {}
       q_params.merge! params.permit(:title, :catalog_path, 'path-rl')
 
-      @posts = @git.posts.default_where(q_params).order(id: :desc).page(params[:page])
+      @posts = @git.posts.default_where(q_params).order(position: :asc).page(params[:page])
     end
 
     def sync
