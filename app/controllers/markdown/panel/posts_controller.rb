@@ -29,7 +29,8 @@ module Markdown
         :published,
         :nav,
         :shared,
-        :target
+        :target,
+        :position
       ]
     end
 

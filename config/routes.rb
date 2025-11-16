@@ -41,6 +41,9 @@ Rails.application.routes.draw do
           collection do
             post :sync
           end
+          member do
+            patch :reorder
+          end
         end
         resources :assets do
           collection do

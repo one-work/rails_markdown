@@ -11,6 +11,7 @@ module Markdown
       attribute :slug, :string
       attribute :catalog_path, :string
       attribute :oid, :string
+      attribute :position, :integer
       attribute :published, :boolean, default: true
       attribute :shared, :boolean, default: false
       attribute :ppt, :boolean, default: false
@@ -31,6 +32,8 @@ module Markdown
       scope :published, -> { where(published: true) }
       scope :nav, -> { where(nav: true) }
       scope :shared, -> { where(shared: true) }
+
+      positioned on: [:git_id, :catalog_path]
 
       normalizes :catalog_path, with: -> path { path.to_s }
 
