@@ -2,7 +2,7 @@
   <% if catalog.path.present? %>
     <li><%= link_to catalog.name, { action: 'show', base_name: catalog.git.base_name, slug: catalog.path } %></li>
   <% else %>
-    <li><%= link_to catalog.name.presence || catalog.home.name, { action: 'index', base_name: catalog.git.base_name } %></li>
+    <li><%= link_to catalog.name.presence || catalog.home.title, { action: 'index', base_name: catalog.git.base_name } %></li>
   <% end %>
 <% end %>
 <% if @post.catalog_path.present? && !@post.home? %>
