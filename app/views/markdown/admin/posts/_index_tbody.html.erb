@@ -10,15 +10,13 @@
   <p><%= model.target_i18n %></p>
 </td>
 <td>
-  <%= form_with theme: nil, model: model, url: { action: 'update', id: model.id }, data: { controller: 'input' } do |f| %>
-    <%= f.check_box :published, data: { input_target: 'checkbox' }, id: nil, class: 'switch is-rounded' %>
-    <label data-action="click->input#check"></label>
+  <%= form_with theme: 'switch', model: model, url: { action: 'update', id: model.id }, data: { controller: 'input' } do |f| %>
+    <%= f.check_box :published, data: { action: 'input#submit' }, id: nil %>
   <% end %>
 </td>
 <td>
-  <%= form_with theme: nil, model: model, url: { action: 'update', id: model.id }, data: { controller: 'input' } do |f| %>
-    <%= f.check_box :nav, data: { input_target: 'checkbox' }, id: nil, class: 'switch is-rounded' %>
-    <label data-action="click->input#check"></label>
+  <%= form_with theme: 'switch', model: model, url: { action: 'update', id: model.id }, data: { controller: 'input' } do |f| %>
+    <%= f.check_box :nav, data: { action: 'input#submit' }, id: nil %>
   <% end %>
 </td>
 <td>
