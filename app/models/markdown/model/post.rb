@@ -1,11 +1,9 @@
 module Markdown
   module Model::Post
     extend ActiveSupport::Concern
+    include Com::Ext::Markdown
 
     included do
-      attribute :title, :string
-      attribute :markdown, :string
-      attribute :html, :string
       attribute :layout, :string
       attribute :path, :string
       attribute :slug, :string
@@ -43,34 +41,12 @@ module Markdown
       before_save :sync_to_html, if: -> { markdown_changed? }
     end
 
-    def document
-      return @document if defined? @document
-      @document = Kramdown::Document.new(
-        markdown,
-        input: 'GFM',
-        syntax_highlighter_opts: {
-          line_numbers: true,
-          wrap: true
-        }
-      )
-    end
-
-    def converter
-      return @converter if defined? @converter
-      @converter = Kramdown::Converter::Html.send :new, document.root, document.options
-    end
-
     def clear_items(items)
       if items.is_a?(Array) && items.all? { |_i| _i.type == :blank }
         items.delete_if { |_i| _i.type == :blank }
       else
         items
       end
-    end
-
-    def new_contents
-      deal_links_and_images
-      document.root.children
     end
 
     def blocks(items = new_contents, level = 2)
@@ -118,34 +94,6 @@ module Markdown
 
     def raw_block_texts
       block_texts(raw_blocks)
-    end
-
-    def deal_links_and_images
-      links = document.root.group_elements(a: [], img: [])
-      links[:a].each do |link|
-        convert_link(link)
-      end
-      links[:img].each do |link|
-        convert_img(link)
-      end
-    end
-
-    def convert_img(link)
-      unless link.attr['src'].start_with?('http', '//')
-        link.attr['src'].prepend based_assets_path
-      end
-    end
-
-    def convert_link(link)
-      if link.attr['href'].start_with?('http', '//')
-        link.attr['target'] = '_blank'
-      elsif link.attr['href'].start_with?('/')
-        link.attr['target'] = '_blank' if target_blank?
-      elsif link.attr['href'].start_with?('#')
-      else
-        link.attr['href'].prepend based_posts_path
-        link.attr['href'].delete_suffix!('.md')
-      end
     end
 
     def last_commit_at
@@ -197,7 +145,6 @@ module Markdown
     def sync_to_html
       self.ppt = is_ppt?
       self.set_title
-      self.set_html
       self
     end
 
@@ -211,34 +158,6 @@ module Markdown
 
     def home?
       catalog.home_path == path
-    end
-
-    def document_h1
-      document.root.children.find { |i| i.type == :header && i.options[:level] == 1 }
-    end
-
-    def set_title
-      h1 = document_h1
-      if h1
-        self.title = h1.options[:raw_text]
-      end
-    end
-
-    def set_html
-      self.deal_links_and_images
-      self.deal_h1_and_blank
-      self.html = document.to_html
-    end
-
-    def deal_h1_and_blank
-      h1 = document_h1
-      contents = document.root.children
-      if h1
-        contents.delete(h1)
-      end
-      while contents[0]&.type == :blank do
-        contents.delete_at(0)
-      end
     end
 
   end
