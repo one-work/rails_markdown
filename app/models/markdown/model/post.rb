@@ -27,7 +27,7 @@ module Markdown
 
       belongs_to :git
       belongs_to :organ, class_name: 'Org::Organ', optional: true
-      belongs_to :catalog, ->(o){ where(git_id: o.git_id) }, foreign_key: :catalog_path, primary_key: :path
+      belongs_to :catalog, foreign_key: [:git_id, :catalog_path], primary_key: [:git_id, :path]
 
       scope :published, -> { where(published: true) }
       scope :nav, -> { where(nav: true) }
