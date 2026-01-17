@@ -1,0 +1,9 @@
+<%=
+  tr_tag(
+    model,
+    { action: url_for(action: 'edit_github_user', id: model.id), icon: 'pencil', title: t('.edit_github_user.title') },
+    { href: url_for(controller: 'catalogs', git_id: model.id), icon: 'folder-tree', title: t('.catalogs.index.title') },
+    { href: url_for(controller: 'posts', git_id: model.id), icon: 'newspaper', title: t('.posts.index.title') },
+    { href: url_for(controller: 'assets', git_id: model.id), icon: 'images', title: t('.assets.index.title') }
+  ) { yield }
+%>
