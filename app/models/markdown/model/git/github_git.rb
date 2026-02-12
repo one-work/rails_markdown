@@ -90,7 +90,7 @@ module Markdown
 
     def url
       if organ&.host
-        Rails.application.routes.url_for(
+        Rails.app.routes.url_for(
           controller: 'markdown/gits',
           action: 'show',
           id: self.id,

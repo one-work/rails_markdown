@@ -20,7 +20,7 @@ module Markdown
       )
       h = {
         client_id: client_id,
-        redirect_uri: Rails.application.routes.url_for(**url_options),
+        redirect_uri: Rails.app.routes.url_for(**url_options),
         scope: scope,
         state: state
       }
