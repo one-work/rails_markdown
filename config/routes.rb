@@ -51,6 +51,7 @@ Rails.application.routes.draw do
           end
         end
       end
+      resources :github_apps
     end
 
     namespace :panel, defaults: { namespace: 'panel' } do

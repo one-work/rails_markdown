@@ -23,15 +23,15 @@ module Markdown
       @post = @git.posts.find(params[:id])
     end
 
-    def post_permit_params
-      [
+    def post_params
+      params.fetch(:post, {}).permit(
         :layout,
         :published,
         :nav,
         :shared,
         :target,
         :position
-      ]
+      )
     end
 
   end

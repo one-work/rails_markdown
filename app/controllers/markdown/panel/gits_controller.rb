@@ -15,8 +15,8 @@ module Markdown
       @git = Git.find(params[:id])
     end
 
-    def git_permit_params
-      [
+    def git_params
+      params.fetch(:git, {}).permit(
         :type,
         :working_directory,
         :base_name,
@@ -25,7 +25,7 @@ module Markdown
         :remote_url,
         :last_commit_at,
         :last_commit_message
-      ]
+      )
     end
 
   end
