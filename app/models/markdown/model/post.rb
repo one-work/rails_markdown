@@ -12,7 +12,6 @@ module Markdown
       attribute :position, :integer
       attribute :published, :boolean, default: true
       attribute :shared, :boolean, default: false
-      attribute :ppt, :boolean, default: false
       attribute :nav, :boolean, default: false, comment: '是否导航菜单'
       attribute :last_commit_at, :datetime
 
@@ -38,7 +37,6 @@ module Markdown
 
       before_validation :sync_organ, if: -> { git_id_changed? }
       before_validation :sync_from_path, if: -> { path_changed? }
-      before_save :sync_to_html, if: -> { markdown_changed? }
     end
 
     def clear_items(items)
@@ -104,10 +102,6 @@ module Markdown
       git.real_path.join(path)
     end
 
-    def ppt_content
-      Marp.parse(markdown)
-    end
-
     def fresh!
       r = git.sync_files path
       r.each(&:save!)
@@ -154,17 +148,8 @@ module Markdown
       end
     end
 
-    def sync_to_html
-      self.ppt = is_ppt?
-      self
-    end
-
     def paths
       catalog.ancestors.reject { |i| i.name.blank? }
-    end
-
-    def is_ppt?
-      markdown.start_with?("---\n")
     end
 
     def home?

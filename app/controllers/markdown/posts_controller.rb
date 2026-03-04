@@ -1,9 +1,9 @@
 module Markdown
   class PostsController < BaseController
     before_action :set_git
-    before_action :set_post, only: [:show, :raw, :ppt, :content]
+    before_action :set_post, only: [:show, :raw, :content]
     before_action :set_catalog, only: [:show]
-    before_action :set_catalogs, only: [:index, :ppt]
+    before_action :set_catalogs, only: [:index]
 
     def index
       q_params = {}
@@ -23,14 +23,6 @@ module Markdown
         @posts = @catalog.posts.published.page(params[:page])
         render :list
       end
-    end
-
-    def ppt
-    end
-
-    def content
-      @ppt = @post.ppt_content
-      render layout: false
     end
 
     def raw
