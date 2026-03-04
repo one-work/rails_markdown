@@ -6,8 +6,7 @@ module Markdown
     end
 
     def create
-      digest = request.headers['X-Hub-Signature'].to_s
-      digest.sub!('sha1=', '')
+      digest = request.headers['X-Hub-Signature'].to_s.sub('sha1=', '')
       verify = OpenSSL::HMAC.hexdigest('sha1', @git.secret, request.body.read)
 
       if digest == verify
