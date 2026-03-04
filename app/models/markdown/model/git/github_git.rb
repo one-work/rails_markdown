@@ -118,16 +118,16 @@ module Markdown
       return if params.blank?
       self.last_commit_message = params['message']
       self.last_commit_at = params['timestamp']
+      self.save!
 
-      r = []
       (params['modified'] + params['added']).each do |path|
         synced_posts, synced_assets = sync_files(path)
         synced_posts.each do |model|
           model.last_commit_at = params['timestamp']
-          r << model
+          model.save
         end
         synced_assets.each do |model|
-          r << model
+          model.save
         end
       end
 
@@ -137,11 +137,6 @@ module Markdown
 
       posts.where(path: params['removed'].select(&->(i){ i.end_with?('.md') })).each do |asset|
         asset.destroy
-      end
-
-      self.class.transaction do
-        r.each(&:save!)
-        self.save!
       end
     end
 
