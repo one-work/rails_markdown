@@ -20,5 +20,12 @@ module Markdown
     def set_catalog
       @catalog = @git.catalogs.find params[:id]
     end
+
+    def catalog_params
+      params.fetch(:catalog, {}).permit(
+        :nav
+      )
+    end
+
   end
 end
