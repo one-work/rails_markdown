@@ -1,6 +1,16 @@
 <%=
   tr_tag(
     model,
+    {
+      href: url_for(controller: 'posts', catalog_path: model.path, git_id: model.git_id),
+      icon: 'newspaper',
+      title: t('.posts.index.title')
+    },
+    {
+      href: url_for(controller: 'assets', catalog_path: model.path, git_id: model.git_id),
+      icon: 'images',
+      title: t('.assets.index.title')
+    },
     data: {
       url: url_for(action: 'reorder', id: model.id),
       id: model.id
