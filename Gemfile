@@ -6,8 +6,8 @@ gem 'rails'
 gem 'pg'
 gem 'puma'
 
-gem 'rails_com', github: 'work-design/rails_com'
-gem 'rails_design', github: 'work-design/rails_design'
+gem 'rails_com', path: '../rails_com'
+gem 'rails_ui', path: '../rails_ui'
 
 gem 'amazing_print'
 
