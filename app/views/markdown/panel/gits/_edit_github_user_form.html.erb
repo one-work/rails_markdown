@@ -1,6 +1,6 @@
 <%= form_with theme: 'modal', model: @git, scope: :git, url: { action: 'update' } do |f| %>
   <%= render 'modal_header' %>
-  <section class="modal-card-body">
+  <section id="modal-card-body" class="modal-card-body">
     <%= render 'error_messages', target: f.object if f.object.errors.present? %>
     <%= f.collection_select :github_user_id, @github_users, :id, :name %>
   </section>
