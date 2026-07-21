@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Rails.app.routes.draw do
   scope module: :markdown, defaults: { business: 'markdown' } do
     scope '(:base_name)' do
       resources :posts, only: [:index]
