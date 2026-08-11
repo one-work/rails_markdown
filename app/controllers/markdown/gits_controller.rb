@@ -2,7 +2,7 @@ module Markdown
   class GitsController < BaseController
     before_action :set_git, only: [:create]
     if whether_filter :verify_authenticity_token
-      skip_before_action :verify_authenticity_token, only: [:create]
+      skip_forgery_protection only: [:create]
     end
 
     def create
