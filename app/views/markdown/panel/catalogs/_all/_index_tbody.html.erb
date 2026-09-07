@@ -4,6 +4,6 @@
 <td><%= model.path %></td>
 <td>
   <%= form_with theme: 'switch', model: model, url: { action: 'update', id: model.id }, data: { controller: 'input' } do |f| %>
-    <%= f.check_box :nav, data: { action: 'input#submit' }, id: nil %>
+    <%= f.checkbox :nav, data: { action: 'input#submit' }, id: nil %>
   <% end %>
 </td>
